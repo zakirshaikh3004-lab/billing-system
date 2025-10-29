@@ -63,7 +63,7 @@ Enter price for item 2: 20
 		ZAKIR'S STORE
 ============================================
 
-Name: John Doe		Address: 123 Main St
+Name: Zakir Shaikh		Address: Ambarnath
 
 Id: 1	Name: Laptop	Price: 1000
 ------------------------------------------------
@@ -75,3 +75,61 @@ Id: 2	Name: Mouse	Price: 20
 ============================================
 		!..VISIT AGAIN..!
 ============================================
+
+
+
+Using the Frontend (Web)
+
+1)Open billing-system.html in a browser.
+2)Fill customer details and total items → Click Add Items.
+3)Enter item names/prices → Click Generate Bill.
+4)View the styled bill below the form.
+
+Live Demo: Deployed on GitHub Pages 
+
+
+Screenshots
+
+1)Console Bill (Java): <img width="628" height="551" alt="image" src="https://github.com/user-attachments/assets/06d02cdc-705b-45c1-882b-2868a69ce88f" />
+
+2)Web Bill (Frontend): <img width="1316" height="765" alt="image" src="https://github.com/user-attachments/assets/f458e93e-22c1-4c94-9df7-2985c81c8489" />
+
+
+Project Structures:
+billing-system/
+├── src/
+│   ├── Item.java          # Item model class
+│   └── BillingSystem.java # Main logic & bill display
+└── billing-system.html    # Frontend (HTML/CSS/JS in one file)
+└── README.md              # This file
+
+
+Future Improvements
+
+1)Convert Java to Spring Boot REST API for true full-stack (with database like H2 for bill storage).
+2)Add features: Discounts, inventory management, PDF export (e.g., via iText in Java or jsPDF in JS).
+3)Frontend enhancements: React for better state management; backend integration via Fetch API.
+
+
+
+Contributing
+
+1)Fork the repo.
+2)Create a feature branch (git checkout -b feature/amazing-feature).
+3)Commit changes (git commit -m 'Add some amazing feature').
+4)Push to branch (git push origin feature/amazing-feature).
+5)Open a Pull Request.
+
+Feedback welcome—feel free to raise issues!
+
+
+License
+MIT License © 2025 [Your Name]. See LICENSE for details (add a LICENSE file if needed).
+
+Built by a fourth-year CS student for portfolio purposes. Questions? Reach out on LinkedIn.
+
+
+
+
+
+
