@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAI STORE - Billing System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+            margin-bottom: 30px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, button {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .item-section {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .hidden {
+            display: none;
+        }
+        .bill {
+            margin-top: 30px;
+            padding: 20px;
+            border: 2px solid #4CAF50;
+            border-radius: 10px;
+            background: #f9f9f9;
+        }
+        .bill-header {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .customer-info {
+            margin-bottom: 20px;
+        }
+        .item-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 5px;
+            border-bottom: 1px solid #eee;
+        }
+        .total {
+            text-align: right;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>WELCOME TO SAI STORE!</h1>
+        
+        <form id="billingForm">
+            <label for="customerName">Enter your name:</label>
+            <input type="text" id="customerName" required>
+            
+            <label for="customerAddress">Enter your address:</label>
+            <input type="text" id="customerAddress" required>
+            
+            <label for="totalItems">Enter total items:</label>
+            <input type="number" id="totalItems" min="1" required>
+            
+            <button type="button" onclick="generateItemForms()">Add Items</button>
+            
+            <div id="itemForms"></div>
+            
+            <button type="button" id="generateBillBtn" class="hidden" onclick="generateBill()">Generate Bill</button>
+        </form>
+        
+        <div id="billOutput" class="bill hidden"></div>
+    </div>
+
+    <script>
+        let items = []; // Array to store item objects
+
+        function generateItemForms() {
+            const totalItems = parseInt(document.getElementById('totalItems').value);
+            if (!totalItems || totalItems <= 0) {
+                alert('Please enter a valid number of items.');
+                return;
+            }
+            
+            const itemFormsDiv = document.getElementById('itemForms');
+            itemFormsDiv.innerHTML = ''; // Clear previous forms
+            
+            for (let i = 0; i < totalItems; i++) {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'item-section';
+                itemDiv.innerHTML = `
+                    <h3>Item ${i + 1}</h3>
+                    <label for="itemName${i}">Enter item name:</label>
+                    <input type="text" id="itemName${i}" required>
+                    
+                    <label for="itemPrice${i}">Enter price:</label>
+                    <input type="number" id="itemPrice${i}" min="0" required>
+                `;
+                itemFormsDiv.appendChild(itemDiv);
+            }
+            
+            document.getElementById('generateBillBtn').classList.remove('hidden');
+        }
+
+        function generateBill() {
+            const name = document.getElementById('customerName').value;
+            const address = document.getElementById('customerAddress').value;
+            const totalItems = parseInt(document.getElementById('totalItems').value);
+            
+            if (!name || !address || !totalItems) {
+                alert('Please fill in all customer details.');
+                return;
+            }
+            
+            items = []; // Reset items
+            let total = 0;
+            
+            for (let i = 0; i < totalItems; i++) {
+                const itemName = document.getElementById(`itemName${i}`).value;
+                const itemPrice = parseInt(document.getElementById(`itemPrice${i}`).value);
+                
+                if (!itemName || !itemPrice || itemPrice < 0) {
+                    alert(`Please fill in valid details for Item ${i + 1}.`);
+                    return;
+                }
+                
+                items.push({ id: i + 1, itemName, price: itemPrice });
+                total += itemPrice;
+            }
+            
+            // Generate bill HTML
+            let billHTML = `
+                <div class="bill-header">SAI STORE</div>
+                <div class="customer-info">
+                    Name: ${name} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Address: ${address}
+                </div>
+            `;
+            
+            items.forEach(item => {
+                billHTML += `
+                    <div class="item-row">
+                        <span>Id: ${item.id} &nbsp; Name: ${item.itemName}</span>
+                        <span>Price: $${item.price}</span>
+                    </div>
+                `;
+            });
+            
+            billHTML += `
+                <div class="total">Total: $${total}</div>
+                <div class="footer">!..VISIT AGAIN..!</div>
+            `;
+            
+            document.getElementById('billOutput').innerHTML = billHTML;
+            document.getElementById('billOutput').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
